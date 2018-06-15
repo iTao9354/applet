@@ -1,0 +1,4 @@
+/* pages/exercise/exercise.wxss */
+.other-button-hover {
+  background-color: blue;
+}

@@ -1,0 +1,6 @@
+<!-- <import src="item.html"/> -->
+<view>
+  我是头
+  <!-- <template is="item" data="{{text: '是是头部'}}"></template> -->
+  ...
+</view>

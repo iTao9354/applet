@@ -1,0 +1,250 @@
+<import src="../item/item.wxml"/>
+<view>
+  <view>
+    基础组件：
+    <view>
+      三、表单组件
+      <view>
+        checkbox:
+        <checkbox-group bindchange="checkboxChange">
+          <label wx:for="{{checkboxItems}}" wx:key="index">
+            <checkbox value="{{item.name}}" checked="{{item.checked}}">{{item.value}}</checkbox>
+          </label>
+        </checkbox-group>
+      </view>
+    </view>
+  </view>
+
+  <view>
+    数据绑定：
+    <text>{{message}}</text>
+  </view>
+  <view>
+    组件属性（需要在双引号之内）：
+    <text id="item-{{idAttr}}">item-{{idAttr}}</text>
+  </view>
+  <view>
+    控制属性：
+    <text wx:if="{{conditionAttr}}">控制属性</text>
+  </view>
+  <view>
+    关键字（需要在双括号内）：
+    <checkbox checked="false"></checkbox>
+    <checkbox checked="{{false}}"></checkbox>
+    <checkbox checked="{{true}}"></checkbox>
+    <radio checked="{{false}}"></radio>
+  </view>
+  <view>
+    运算：
+    <view>
+      （1）三元运算：
+      <text hidden="{{flagOperation ? true : false}}">hidden</text>
+    </view>
+    <view>
+      （2）算术运算：
+      <text>{{a + b}} + {{c}} - d</text>
+    </view>
+    <view>
+      （3）逻辑判断：
+      <text wx:if="{{lengthLogic > 5}}">只有大于5时显示</text>
+    </view>
+    <view>
+      （4）字符串运算：
+      <text>{{'Hello ' + strOperation}}</text>
+    </view>
+    <view>
+      （5）数据路径运算：
+      <text>{{objPath.key + ' ' + arrPath[0]}}</text>
+    </view>
+  </view>
+  <view>
+    组合：
+    <view>
+      （1）数组：<view wx:for="{{[idAttr, 1, 2, 3, 4]}}" wx:key="index">{{item}}</view> 
+    </view>
+    <view>
+      （2）对象：
+      <template name="objCombine">
+        <text>{key: {{key}}, value: {{value}}, bar: {{bar}}}</text>
+      </template>
+      <view>
+        <template is="objCombine" data="{{key: a, value: b}}"></template>
+      </view>
+      <view>
+        <template is="objCombine" data="{{...objPath, ...objCombine, bar: '哈哈'}}"></template>
+      </view>
+      <view>
+        <template is="objCombine" data="{{key, value, bar}}"></template>
+      </view>
+    </view>
+  </view>
+  --------------------------------------------------
+
+  <view>
+    列表渲染：
+    <view wx:for="{{arrayFor}}" wx:key="index">{{index+'：'+item}}</view>
+    <view wx:for="{{arrayItem}}" wx:key="*this" wx:for-index="idx" wx:for-item="itemObj">
+      {{idx}}：{{itemObj.msg}}
+    </view>
+    九九乘法表：
+    <view wx:for="{{[1, 2, 3, 4, 5, 6, 7, 8, 9]}}" wx:key="idxI" wx:for-index="idxI" wx:for-item="i">
+      <view wx:for="{{[1, 2, 3, 4, 5, 6, 7, 8, 9]}}" wx:key="idxJ" wx:for-index="idxJ" wx:for-item="j">
+        <view wx:if="{{i <= j}}">
+          {{i}} × {{j}} = {{i * j}}
+        </view>
+      </view>
+    </view>
+  </view>
+  --------------------------------------------------
+
+  <view>
+    条件渲染：
+    <text wx:if="{{dataIf == 'Sheldon'}}">Sheldon</text>
+    <text wx:elif="{{dataIf == 'Lenard'}}">Lenard</text>
+    <text wx:else="{{dataIf == 'Penny'}}">Penny</text>
+  </view>
+  --------------------------------------------------
+
+  <view>
+    <view>    
+      模板：
+      <template name="staffName">
+        <view>
+          FirstName: {{firstName}}, LastName: {{lastName}} 
+        </view>
+      </template>
+      <template is="staffName" data="{{...staffA_tem}}"></template>
+      <template is="staffName" data="{{...staffB_tem}}"></template>
+    </view>
+    <view>
+      模板的is属性使用花括号语法：
+      <template name="odd">
+        <view>odd</view>      
+      </template>
+      <template name="even">
+        <view>even</view>
+      </template>
+      <block wx:for="{{[0, 1, 2, 3, 4]}}" wx:key="index">
+        <template is="{{item % 2 ? 'even' : 'odd'}}"></template>
+      </block>
+    </view>
+  </view>
+  --------------------------------------------------
+
+  <view>
+    <view>  
+      事件：
+      <view bindtap="add">{{countEv}}</view>
+      <view bindtap="tapName">Click me!</view>
+    </view>
+    <view>
+      事件冒泡：
+      <view bindtap="handleTap1">
+        outer view
+        <view catchtap="handleTap2">
+          middle view
+          <view bindtap="handleTap3">
+            inner view
+          </view>
+        </view>
+      </view>
+    </view>
+    <view>
+      事件捕获：
+      <view bind:touchstart="handleTap1" capture-catch:touchstart="handleTap2">
+        outer view
+        <view bind:touchstart="handleTap3" capture-bind:touchstart="handleTap4">
+          inner view
+        </view>
+      </view>
+    </view>
+  </view>
+  --------------------------------------------------
+
+  <view>
+    <view>
+      引用：
+      <template is="item" data="{{text: '引引用'}}"></template>    
+    </view>
+    <view>
+      include引用：
+      <include src="../item/header.wxml"/>
+      <view>我是身体</view>
+      <include src="../item/footer.wxml"/> 
+    </view> 
+  </view>
+  --------------------------------------------------
+
+  <view>
+    WXS:
+    <view>
+      模块化：
+      <wxs src="./exercise.wxs" module="tools"/> 
+      <view>{{tools.msg}}</view>
+      <view>{{tools.bar(tools.foo)}}</view>
+    </view>
+    <view>
+      模块化例2：
+      <wxs src="../item/item.wxs" module="aa"/>
+    </view>
+  </view>
+  --------------------------------------------------
+
+  <view>
+    基础组件：
+    <view>
+      一、视图容器
+      <view>
+        swiper:
+        <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+          <block wx:for="{{imgUrls}}" wx:key="index">
+            <swiper-item>
+              <image src="{{item}}"/>
+            </swiper-item>
+          </block> 
+        </swiper>
+        <button bindtap="changeIndicatorDots">indicator-dots</button>
+        <button bindtap="changeAutoplay">autoplay</button>
+        <!-- 滑块选择器 -->
+        <slider bindchange="intervalChange" show-value min="500" max="2000"></slider>
+        <slider bindchange="durationChange" show-value min="1000" max="10000"></slider>
+        ps：注意此处的interval和duration的关系，尽量使前者大于后者！！！
+      </view>
+    </view>
+
+    <view>
+      二、基础内容
+      <view>
+        icon:
+        <block wx:for="{{iconType}}" wx:key="index">
+          <icon type="{{item}}" size="30"/>
+        </block>
+        <block wx:for="{{iconColor}}" wx:key="index">
+          <icon type="success" color="{{item}}"/>
+        </block>
+      </view>
+      <view>
+        text:
+        <text>{{text}}</text>
+        <button bindtap="addLine">add line</button>
+        <button bindtap="removeLine">remove line</button>
+      </view>
+      <view>
+        progress:
+        <progress percent="80" show-info stroke-width="10" activeColor="red" backgroundColor="pink" active/>
+      </view>
+    </view>
+
+    <view>
+      三、表单组件
+      <view>
+        button:
+        <button type="{{btnType}}" size="{{btnSize}}" plain="{{btnPlain}}" disabled="{{disabled}}" loading="{{btnLoading}}" hover-class="other-button-hover">按钮</button>
+        <button open-type="contact">进入客服会话</button>
+        <button open-type="getUserInfo" bindgetuserinfo="onGotUserInfo">获取用户信息</button>
+        <button open-type="openSetting">打开授权设置页</button>
+        ps:此处hover-class效果未生效
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,3 @@
+var tools = require('../exercise/exercise.wxs')
+console.log(tools.msg)
+console.log(tools.bar('嘿嘿'))
